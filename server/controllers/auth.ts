@@ -1,20 +1,30 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
+import db from '../db'
 const authController = {
-    login: (req: Request, res: Response) => {
-        console.log('req.body', req.body)
-
-        const token = jwt.sign({ userId: 1 }, process.env.JWT_PRIVATE_KEY, {
-            expiresIn: process.env.JWT_EXPIRES_IN,
-        })
-        res.json({ error: null, data: { token } })
+    login: async (req: Request, res: Response) => {
+        const { password, login } = req.body
+        const pwdHash = (
+            await db('user')
+                .select('password_hash')
+                .where({ login })
+                .first()
+        ).password_hash
+        if (bcrypt.compareSync(password, pwdHash)) {
+            const token = jwt.sign({ userId: 1 }, process.env.JWT_PRIVATE_KEY as string, {
+                expiresIn: process.env.JWT_EXPIRES_IN,
+            })
+            res.json({ error: null, data: { token } })
+        } else {
+            res.status(403).json({ error: { message: 'invalid login or password' }, data: null })
+        }
     },
     me: (req: Request, res: Response) => {
         const token = req.headers['authorization']
         const newToken = token!.replace('Bearer ', '')
         if (token) {
-            jwt.verify(newToken, process.env.JWT_PRIVATE_KEY, (error: any, decode: any) => {
+            jwt.verify(newToken, process.env.JWT_PRIVATE_KEY as string, (error: any, decode: any) => {
                 if (error) {
                     res.status(403).json({ error: { message: 'invalid token' }, data: null })
                 } else {

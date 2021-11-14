@@ -1,10 +1,6 @@
 <template>
     <div class="container">
-        <NuxtLink to="/About">About page</NuxtLink>
-        <pre>user: {{ $auth.user }}</pre>
-        <button @click="fetchUser">2121</button>
-        <button @click="login">login</button>
-        <button @click="logOut">logOut</button>
+        <el-button @click="logout">log out </el-button>
     </div>
 </template>
 
@@ -12,7 +8,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-    //middleware: "test",
+    middleware: 'auth',
     data: () => ({
         user: {},
     }),
@@ -26,11 +22,11 @@ export default Vue.extend({
             console.log('this.$auth', this.$auth)
 
             const response = await this.$auth.loginWith('local', {
-                data: { password: 'password' },
+                data: { password: 'qwerty123', login: 'teacher1_login' },
             })
             console.log('response', response)
         },
-        async logOut() {
+        async logout() {
             this.$auth.logout()
         },
     },
@@ -38,34 +34,4 @@ export default Vue.extend({
 </script>
 
 <style>
-.container {
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-        Arial, sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-}
-
-.subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-}
-
-.links {
-    padding-top: 15px;
-}
 </style>
