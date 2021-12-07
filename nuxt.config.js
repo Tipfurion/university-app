@@ -12,7 +12,7 @@ export default {
         ],
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
-
+    loading: false,
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['element-ui/lib/theme-chalk/index.css', '~/assets/css/main.css'],
 
@@ -21,7 +21,7 @@ export default {
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
-
+    debug: true,
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
         // https://go.nuxtjs.dev/typescript

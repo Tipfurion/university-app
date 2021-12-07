@@ -26,6 +26,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
     //middleware: "test",
+    layout: 'login',
     data: () => ({
         user: {},
         error: null as string | null,
@@ -47,6 +48,9 @@ export default Vue.extend({
                     data: { password: this.formData.password, login: this.formData.login },
                 })
             } catch (err) {
+                //throw new Error(String(err))
+                console.log(err)
+
                 this.error = 'Неверные данные'
             }
             this.loading = false

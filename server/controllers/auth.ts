@@ -5,14 +5,12 @@ import db from '../db'
 const authController = {
     login: async (req: Request, res: Response) => {
         const { password, login } = req.body
-        const pwdHash = (
-            await db('user')
-                .select('password_hash')
-                .where({ login })
-                .first()
-        ).password_hash
-        if (bcrypt.compareSync(password, pwdHash)) {
-            const token = jwt.sign({ userId: 1 }, process.env.JWT_PRIVATE_KEY as string, {
+        const user = await db('user')
+            .select(['id', 'password_hash'])
+            .where({ login })
+            .first()
+        if (bcrypt.compareSync(password, user.password_hash)) {
+            const token = jwt.sign({ userId: user.id }, process.env.JWT_PRIVATE_KEY as string, {
                 expiresIn: process.env.JWT_EXPIRES_IN,
             })
             res.json({ error: null, data: { token } })
@@ -20,15 +18,20 @@ const authController = {
             res.status(403).json({ error: { message: 'invalid login or password' }, data: null })
         }
     },
-    me: (req: Request, res: Response) => {
-        const token = req.headers['authorization']
-        const newToken = token!.replace('Bearer ', '')
+    me: async (req: Request, res: Response) => {
+        const authHeader = req.headers['authorization']
+        const token = authHeader!.replace('Bearer ', '')
         if (token) {
-            jwt.verify(newToken, process.env.JWT_PRIVATE_KEY as string, (error: any, decode: any) => {
+            jwt.verify(token, process.env.JWT_PRIVATE_KEY as string, async (error: any, decode: any) => {
                 if (error) {
                     res.status(403).json({ error: { message: 'invalid token' }, data: null })
                 } else {
-                    res.status(200).json({ error: null, data: { name: 'Ruslan' } })
+                    const decodedToken = jwt.decode(token) as any
+                    const user = await db('user')
+                        .select(['id', 'type', 'login'])
+                        .where({ id: decodedToken.userId })
+                        .first()
+                    res.status(200).json({ error: null, data: user })
                 }
             })
         } else {

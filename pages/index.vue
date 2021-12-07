@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <el-button @click="logout">log out </el-button>
+        <pre>{{ $auth.user }}</pre>
     </div>
 </template>
 
@@ -13,22 +14,16 @@ export default Vue.extend({
         user: {},
     }),
     methods: {
-        async fetchUser() {
-            const res = await fetch('/api/user')
-            console.log('res', res)
-            this.user = await res.json()
-        },
-        async login() {
-            console.log('this.$auth', this.$auth)
-
-            const response = await this.$auth.loginWith('local', {
-                data: { password: 'qwerty123', login: 'teacher1_login' },
-            })
-            console.log('response', response)
-        },
         async logout() {
             this.$auth.logout()
         },
+    },
+    created() {
+        if (this.$auth.user!.type === 'admin') {
+            this.$router.push('/admin')
+        } else if (this.$auth.user!.type === 'teacher') {
+            this.$router.push('/teacher')
+        }
     },
 })
 </script>

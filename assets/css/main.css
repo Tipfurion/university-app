@@ -1,6 +1,18 @@
+body {
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+}
+html,
+body,
+#__nuxt,
+#__layout {
+    height: 100% !important;
+    width: 100% !important;
+}
 .container {
+    overflow: auto;
     margin: 0 auto;
-    min-height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
