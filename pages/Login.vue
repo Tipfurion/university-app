@@ -32,8 +32,9 @@ export default Vue.extend({
         error: null as string | null,
         loading: false as boolean,
         formData: {
-            login: 'teacher1_login',
-            password: 'qwerty1234',
+            //login: 'teacher1_login',
+            login: 'admin_login',
+            password: 'qwerty123',
         },
     }),
     methods: {

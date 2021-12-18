@@ -9,13 +9,16 @@ const authController = {
             .select(['id', 'password_hash'])
             .where({ login })
             .first()
+        if (!user) {
+            res.status(403).json({ error: { message: 'invalid login' }, data: null })
+        }
         if (bcrypt.compareSync(password, user.password_hash)) {
             const token = jwt.sign({ userId: user.id }, process.env.JWT_PRIVATE_KEY as string, {
                 expiresIn: process.env.JWT_EXPIRES_IN,
             })
             res.json({ error: null, data: { token } })
         } else {
-            res.status(403).json({ error: { message: 'invalid login or password' }, data: null })
+            res.status(403).json({ error: { message: 'invalid password' }, data: null })
         }
     },
     me: async (req: Request, res: Response) => {

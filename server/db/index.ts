@@ -1,4 +1,5 @@
 import Knex from 'knex'
+
 const db = Knex({
     client: 'mssql',
     connection: {

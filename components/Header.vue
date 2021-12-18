@@ -1,7 +1,7 @@
 
 <template>
     <header>
-        <div class="header">
+        <div class="header" style="z-index: 1000000">
             <button class="icon-btn">
                 <i class="el-icon-user user-icon" width="24px"></i>
             </button>
