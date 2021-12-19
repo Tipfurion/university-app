@@ -6,7 +6,7 @@
             <el-input placeholder="Отчество" v-model="formdata.patronymic" class="form-input"></el-input>
             <el-input placeholder="Телефон" v-model="formdata.phone" class="form-input"></el-input>
             <el-input placeholder="Email" v-model="formdata.email" class="form-input"></el-input>
-            <el-input placeholder="Кафедра" v-model="formdata.department" class="form-input"></el-input>
+
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">Отмена</el-button>
                 <el-button type="primary" @click="handleApplyButton">{{ applyButtonTitle }}</el-button>
@@ -24,7 +24,7 @@
             >Добавить</el-button
         >
         <el-row>
-            <el-table :data="teachers" style="width: 1200px">
+            <el-table :data="students" style="width: 1200px">
                 <el-table-column v-for="field in fields" :prop="field.value" :label="field.name" :key="field.value">
                 </el-table-column>
 
@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { createTeacher, deleteTeacher, getTeachers, updateTeacher } from '../../api/teachers'
+import { createStudent, deleteStudent, getStudents, updateStudent } from '../../api/students'
 
 export default Vue.extend({
     data: () => ({
@@ -72,13 +72,9 @@ export default Vue.extend({
                 name: 'Email',
                 value: 'email',
             },
-            {
-                name: 'Кафедра',
-                value: 'department',
-            },
         ],
         formdata: {} as any,
-        teachers: [] as any[],
+        students: [] as any[],
         editedItem: null as any,
         dialogVisible: false,
         dialogMode: null as string | null,
@@ -92,7 +88,7 @@ export default Vue.extend({
         },
     },
     async fetch() {
-        this.teachers = await getTeachers()
+        this.students = await getStudents()
     },
     methods: {
         handleDialogClose() {
@@ -122,18 +118,18 @@ export default Vue.extend({
             this.dialogVisible = true
         },
         async createItem() {
-            const teacher = await createTeacher(this.formdata)
-            this.teachers.push(teacher)
+            const student = await createStudent(this.formdata)
+            this.students.push(student)
         },
         async updateItem() {
-            const teacher = await updateTeacher(Object.assign({}, this.formdata, { id: this.editedItem.id }))
-            const index = this.teachers.findIndex((el) => el.id === this.editedItem.id)
-            this.teachers.splice(index, 1, teacher)
+            const student = await updateStudent(Object.assign({}, this.formdata, { id: this.editedItem.id }))
+            const index = this.students.findIndex((el) => el.id === this.editedItem.id)
+            this.students.splice(index, 1, student)
         },
         async deleteItem(id: number) {
-            await deleteTeacher({ id })
-            const index = this.teachers.findIndex((el) => el.id === id)
-            this.teachers.splice(index, 1)
+            await deleteStudent({ id })
+            const index = this.students.findIndex((el) => el.id === id)
+            this.students.splice(index, 1)
         },
     },
 })
