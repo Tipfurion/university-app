@@ -37,11 +37,11 @@ export default {
                     },
                     {
                         title: 'Студенты',
-                        path: '/about',
+                        path: '/admin/students',
                     },
                     {
                         title: 'Преподаватели',
-                        path: '/about',
+                        path: '/admin/teachers',
                     },
                     {
                         title: 'Группы',

@@ -18,3 +18,14 @@ body,
     align-items: center;
     text-align: center;
 }
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+}
+.action-button {
+    margin: 6px !important;
+    width: 120px;
+}
+.el-button + .el-button {
+    margin: 0;
+}

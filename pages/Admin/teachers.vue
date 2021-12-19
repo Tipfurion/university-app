@@ -1,8 +1,12 @@
 <template>
     <div>
         <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%" @close="handleDialogClose">
-            <el-input placeholder="Код" v-model="formdata.code" class="form-input"></el-input>
-            <el-input placeholder="Специальность" v-model="formdata.speciality" class="form-input"></el-input>
+            <el-input placeholder="Имя" v-model="formdata.name" class="form-input"></el-input>
+            <el-input placeholder="Фамилия" v-model="formdata.surname" class="form-input"></el-input>
+            <el-input placeholder="Отчество" v-model="formdata.patronymic" class="form-input"></el-input>
+            <el-input placeholder="Телефон" v-model="formdata.phone" class="form-input"></el-input>
+            <el-input placeholder="Email" v-model="formdata.email" class="form-input"></el-input>
+            <el-input placeholder="Кафедра" v-model="formdata.department" class="form-input"></el-input>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">Отмена</el-button>
                 <el-button type="primary" @click="handleApplyButton">{{ applyButtonTitle }}</el-button>
@@ -20,9 +24,10 @@
             >Добавить</el-button
         >
         <el-row>
-            <el-table :data="groups" style="width: 1000px">
-                <el-table-column prop="code" label="Код"> </el-table-column>
-                <el-table-column prop="speciality" label="Специальность"> </el-table-column>
+            <el-table :data="teachers" style="width: 1200px">
+                <el-table-column v-for="field in fields" :prop="field.value" :label="field.name" :key="field.value">
+                </el-table-column>
+
                 <el-table-column label="Действия">
                     <template slot-scope="scope">
                         <div class="action-buttons">
@@ -42,12 +47,38 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { createGroup, deleteGroup, getGroups, updateGroup } from '../../api/groups'
+import { createTeacher, deleteTeacher, getTeachers, updateTeacher } from '../../api/teachers'
 
 export default Vue.extend({
     data: () => ({
-        formdata: { code: '', speciality: '' } as any,
-        groups: [] as any[],
+        fields: [
+            {
+                name: 'Имя',
+                value: 'name',
+            },
+            {
+                name: 'Фамилия',
+                value: 'surname',
+            },
+            {
+                name: 'Отчество',
+                value: 'patronymic',
+            },
+            {
+                name: 'Телефон',
+                value: 'phone',
+            },
+            {
+                name: 'Email',
+                value: 'email',
+            },
+            {
+                name: 'Кафедра',
+                value: 'department',
+            },
+        ],
+        formdata: {} as any,
+        teachers: [] as any[],
         editedItem: null as any,
         dialogVisible: false,
         dialogMode: null as string | null,
@@ -61,12 +92,7 @@ export default Vue.extend({
         },
     },
     async fetch() {
-        this.groups = await getGroups()
-    },
-    watch: {
-        'formdata.code'() {
-            console.log(this.formdata)
-        },
+        this.teachers = await getTeachers()
     },
     methods: {
         handleDialogClose() {
@@ -85,26 +111,28 @@ export default Vue.extend({
         },
         handleEdit(item: any) {
             this.editedItem = item
-            this.formdata = { code: '', speciality: '' }
-            this.formdata.code = this.editedItem.code
-            this.formdata.speciality = this.editedItem.speciality
-
+            this.formdata = {}
+            this.fields
+                .map((el) => el.value)
+                .forEach((key) => {
+                    this.formdata[key] = this.editedItem[key]
+                })
             this.dialogMode = 'edit'
             this.dialogVisible = true
         },
         async createItem() {
-            const group = await createGroup(this.formdata)
-            this.groups.push(group)
+            const teacher = await createTeacher(this.formdata)
+            this.teachers.push(teacher)
         },
         async updateItem() {
-            const group = await updateGroup(Object.assign({}, this.formdata, { id: this.editedItem.id }))
-            const index = this.groups.findIndex((el) => el.id === this.editedItem.id)
-            this.groups.splice(index, 1, group)
+            const teacher = await updateTeacher(Object.assign({}, this.formdata, { id: this.editedItem.id }))
+            const index = this.teachers.findIndex((el) => el.id === this.editedItem.id)
+            this.teachers.splice(index, 1, teacher)
         },
         async deleteItem(id: number) {
-            await deleteGroup({ id })
-            const index = this.groups.findIndex((el) => el.id === id)
-            this.groups.splice(index, 1)
+            await deleteTeacher({ id })
+            const index = this.teachers.findIndex((el) => el.id === id)
+            this.teachers.splice(index, 1)
         },
     },
 })

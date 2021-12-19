@@ -1,31 +1,31 @@
 import { Request, Response } from 'express'
 import db from '../db'
 import _ from 'lodash'
-const groupController = {
+const teacherController = {
     get: async (req: Request, res: Response) => {
-        const items = await db('group')
+        const items = await db('teacher')
             .select('*')
             .where({ deleted: false })
         return res.json(items)
     },
     create: async (req: Request, res: Response) => {
-        const { code, speciality } = req.body
-        const items = await db('group')
-            .insert({ code, speciality })
+        const { name, surname, patronymic, phone, email, department } = req.body
+        const items = await db('teacher')
+            .insert({ name, surname, patronymic, phone, email, department })
             .returning('*')
         return res.json(items[0])
     },
     update: async (req: Request, res: Response) => {
-        const { id, code, speciality } = req.body
-        const items = await db('group')
-            .update(_.omitBy({ code, speciality }, _.isNil))
+        const { id, name, surname, patronymic, phone, email, department } = req.body
+        const items = await db('teacher')
+            .update(_.omitBy({ name, surname, patronymic, phone, email, department }, _.isNil))
             .where({ id })
             .returning('*')
         return res.json(items[0])
     },
     delete: async (req: Request, res: Response) => {
         const { id } = req.body
-        await db('group')
+        await db('teacher')
             .update({ deleted: true })
             .where({ id })
             .returning('*')
@@ -33,4 +33,4 @@ const groupController = {
         return res.json({ message: 'ok' })
     },
 }
-export default groupController
+export default teacherController

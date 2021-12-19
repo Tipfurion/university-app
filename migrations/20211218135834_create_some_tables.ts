@@ -14,6 +14,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('surname')
         table.string('patronymic')
         table.string('phone')
+        table.string('email')
         table.string('department')
         table.boolean('deleted')
     })
