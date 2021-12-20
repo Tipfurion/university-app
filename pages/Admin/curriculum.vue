@@ -1,6 +1,5 @@
 <template>
     <div>
-        <pre>curriculumFormdata:{{ curriculumFormdata }}</pre>
         <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%" @close="handleDialogClose">
             <el-input
                 placeholder="Форма обучнения"
@@ -43,8 +42,9 @@
         <el-row>
             <el-table :data="curriculumsWithGroups" style="width: 1000px">
                 <el-table-column type="expand">
-                    <template slot-scope="props">
-                        <Teacherspage></Teacherspage>
+                    <template slot-scope="scope">
+                        <h3>Формы контроля</h3>
+                        <form-of-control :curriculum_id="scope.row.id"></form-of-control>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -76,9 +76,9 @@
 import Vue from 'vue'
 import { createCurriculum, deleteCurriculum, getCurriculums, updateCurriculum } from '../../api/curriculum'
 import { getGroups } from '../../api/groups'
-import Teacherspage from '@/pages/Admin/teachers.vue'
+import FormOfControl from './formOfControl.vue'
 export default Vue.extend({
-    components: { Teacherspage },
+    components: { FormOfControl },
     data: () => ({
         curriculumFields: [
             {
