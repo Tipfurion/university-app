@@ -8,6 +8,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('patronymic')
         table.string('phone')
         table.string('email')
+        table.integer('group_id')
         table.boolean('deleted').defaultTo(false)
     })
 }

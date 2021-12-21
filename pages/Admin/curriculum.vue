@@ -28,6 +28,7 @@
                 <el-button type="primary" @click="handleApplyButton">{{ applyButtonTitle }}</el-button>
             </span>
         </el-dialog>
+        <h2>Учебный план</h2>
         <el-button
             plain
             type="primary"

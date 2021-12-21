@@ -8,6 +8,7 @@
                 <el-button type="primary" @click="handleApplyButton">{{ applyButtonTitle }}</el-button>
             </span>
         </el-dialog>
+        <h2>Группы</h2>
         <el-button
             plain
             type="primary"

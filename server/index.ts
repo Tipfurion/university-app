@@ -7,6 +7,9 @@ import teacherRoutes from './routes/teacher'
 import studentRoutes from './routes/student'
 import curriculumRoutes from './routes/curriculum'
 import formOfControlRoutes from './routes/formOfControl'
+import academicPerformanceRoutes from './routes/academicPerformance'
+import reportRoutes from './routes/report'
+
 // Create express instance
 const app = express()
 app.use(express.json())
@@ -16,6 +19,8 @@ app.use('/api/teacher', teacherRoutes)
 app.use('/api/student', studentRoutes)
 app.use('/api/curriculum', curriculumRoutes)
 app.use('/api/formOfControl', formOfControlRoutes)
+app.use('/api/academicPerformance', academicPerformanceRoutes)
+app.use('/api/report', reportRoutes)
 // Start standalone server if directly running
 if (require.main === module) {
     const port = process.env.PORT || 3001

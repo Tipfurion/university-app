@@ -1,5 +1,28 @@
 <template>
     <div class="container">
+        <div class="credentials-tip">
+            <div>
+                <h3>Данные для входа</h3>
+            </div>
+            <div>
+                <b>Администратор: </b>
+                <div>
+                    <span>admin_login</span>
+                </div>
+                <div>
+                    <span>qwerty123</span>
+                </div>
+            </div>
+            <div>
+                <b>Преподаватель</b>
+            </div>
+            <div>
+                <span>admin_login</span>
+            </div>
+            <div>
+                <span>qwerty123</span>
+            </div>
+        </div>
         <div class="login-form">
             <el-form>
                 <el-form-item :error="error ? ' ' : null">
@@ -33,7 +56,7 @@ export default Vue.extend({
         loading: false as boolean,
         formData: {
             //login: 'teacher1_login',
-            login: 'admin_login',
+            login: 'teacher1_login',
             password: 'qwerty123',
         },
     }),
@@ -71,5 +94,11 @@ export default Vue.extend({
 }
 .login-btn {
     width: 200px;
+}
+.credentials-tip {
+    position: absolute;
+    right: 100px;
+    top: 100px;
+    text-align: left;
 }
 </style>

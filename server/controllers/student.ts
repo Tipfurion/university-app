@@ -9,16 +9,16 @@ const studentController = {
         return res.json(items)
     },
     create: async (req: Request, res: Response) => {
-        const { name, surname, patronymic, phone, email } = req.body
+        const { name, surname, patronymic, phone, email, group_id } = req.body
         const items = await db('student')
-            .insert({ name, surname, patronymic, phone, email })
+            .insert({ name, surname, patronymic, phone, email, group_id })
             .returning('*')
         return res.json(items[0])
     },
     update: async (req: Request, res: Response) => {
-        const { id, name, surname, patronymic, phone, email } = req.body
+        const { id, name, surname, patronymic, phone, email, group_id } = req.body
         const items = await db('student')
-            .update(_.omitBy({ name, surname, patronymic, phone, email }, _.isNil))
+            .update(_.omitBy({ name, surname, patronymic, phone, email, group_id }, _.isNil))
             .where({ id })
             .returning('*')
         return res.json(items[0])

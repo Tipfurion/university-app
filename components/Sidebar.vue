@@ -33,7 +33,7 @@ export default {
                     },
                     {
                         title: 'Успеваемость',
-                        path: '/about',
+                        path: '/admin/academicPerformance',
                     },
                     {
                         title: 'Студенты',

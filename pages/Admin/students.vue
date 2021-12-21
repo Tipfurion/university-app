@@ -6,12 +6,15 @@
             <el-input placeholder="Отчество" v-model="formdata.patronymic" class="form-input"></el-input>
             <el-input placeholder="Телефон" v-model="formdata.phone" class="form-input"></el-input>
             <el-input placeholder="Email" v-model="formdata.email" class="form-input"></el-input>
-
+            <el-select placeholder="Группа" v-model="formdata.group_id" class="form-input" style="width: 100%"
+                ><el-option v-for="item in groups" :key="item.id" :label="item.code" :value="item.id"> </el-option
+            ></el-select>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">Отмена</el-button>
                 <el-button type="primary" @click="handleApplyButton">{{ applyButtonTitle }}</el-button>
             </span>
         </el-dialog>
+        <h2>Студенты</h2>
         <el-button
             plain
             type="primary"
@@ -24,7 +27,7 @@
             >Добавить</el-button
         >
         <el-row>
-            <el-table :data="students" style="width: 1200px">
+            <el-table :data="formattedStudents" style="width: 1200px">
                 <el-table-column v-for="field in fields" :prop="field.value" :label="field.name" :key="field.value">
                 </el-table-column>
 
@@ -47,6 +50,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getGroups } from '../../api/groups'
 import { createStudent, deleteStudent, getStudents, updateStudent } from '../../api/students'
 
 export default Vue.extend({
@@ -72,9 +76,14 @@ export default Vue.extend({
                 name: 'Email',
                 value: 'email',
             },
+            {
+                name: 'Группа',
+                value: 'group',
+            },
         ],
         formdata: {} as any,
         students: [] as any[],
+        groups: [] as any[],
         editedItem: null as any,
         dialogVisible: false,
         dialogMode: null as string | null,
@@ -86,9 +95,17 @@ export default Vue.extend({
         applyButtonTitle(): string {
             return this.dialogMode === 'create' ? 'Создать' : 'Применить'
         },
+        formattedStudents(): any[] {
+            return this.students.map((el) =>
+                Object.assign({}, el, {
+                    group: this.getGroup(el),
+                })
+            )
+        },
     },
     async fetch() {
         this.students = await getStudents()
+        this.groups = await getGroups()
     },
     methods: {
         handleDialogClose() {
@@ -130,6 +147,10 @@ export default Vue.extend({
             await deleteStudent({ id })
             const index = this.students.findIndex((el) => el.id === id)
             this.students.splice(index, 1)
+        },
+        getGroup(student: any) {
+            const group = this.groups.find((el2) => el2.id == student.group_id)
+            return group ? group.code : ''
         },
     },
 })

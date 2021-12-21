@@ -12,6 +12,7 @@
                 <el-button type="primary" @click="handleApplyButton">{{ applyButtonTitle }}</el-button>
             </span>
         </el-dialog>
+        <h2>Преподаватели</h2>
         <el-button
             plain
             type="primary"

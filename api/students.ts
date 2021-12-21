@@ -9,22 +9,22 @@ export async function getStudents() {
     const res = await (await fetch(url.toString(), options)).json()
     return res
 }
-export async function createStudent({ name, surname, patronymic, phone, email, department }: any) {
+export async function createStudent({ name, surname, patronymic, phone, email, department, group_id }: any) {
     const url = new URL(`${process.env.API_ENDPOINT}/student`)
     const options = {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ name, surname, patronymic, phone, email, department }),
+        body: JSON.stringify({ name, surname, patronymic, phone, email, department, group_id }),
     }
     const res = await (await fetch(url.toString(), options)).json()
     return res
 }
-export async function updateStudent({ id, name, surname, patronymic, phone, email, department }: any) {
+export async function updateStudent({ id, name, surname, patronymic, phone, email, department, group_id }: any) {
     const url = new URL(`${process.env.API_ENDPOINT}/student`)
     const options = {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ id, name, surname, patronymic, phone, email, department }),
+        body: JSON.stringify({ id, name, surname, patronymic, phone, email, department, group_id }),
     }
     const res = await (await fetch(url.toString(), options)).json()
     return res
