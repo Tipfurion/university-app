@@ -43,18 +43,18 @@ export default {
         transpile: [/^element-ui/],
     },
     axios: {
-        baseURL: process.env.API_ENDPOINT, // Used as fallback if no runtime config is provided
+        baseURL: process.env.BASE_URL, // Used as fallback if no runtime config is provided
     },
 
     publicRuntimeConfig: {
         axios: {
-            browserBaseURL: process.env.API_ENDPOINT,
+            browserBaseURL: process.env.BASE_URL,
         },
     },
 
     privateRuntimeConfig: {
         axios: {
-            baseURL: process.env.API_ENDPOINT,
+            baseURL: process.env.BASE_URL,
         },
     },
     router: {
