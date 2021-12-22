@@ -42,7 +42,21 @@ export default {
     build: {
         transpile: [/^element-ui/],
     },
+    axios: {
+        baseURL: process.env.API_ENDPOINT, // Used as fallback if no runtime config is provided
+    },
 
+    publicRuntimeConfig: {
+        axios: {
+            browserBaseURL: process.env.API_ENDPOINT,
+        },
+    },
+
+    privateRuntimeConfig: {
+        axios: {
+            baseURL: process.env.API_ENDPOINT,
+        },
+    },
     router: {
         //middleware: ["test"]
     },
