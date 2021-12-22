@@ -22,7 +22,10 @@ export default {
     env: {
         API_ENDPOINT: process.env.API_ENDPOINT,
     },
-
+    server: {
+        port: 3000, // default: 3000
+        host: '0.0.0.0', // default: localhost
+    },
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: true,
     debug: true,
