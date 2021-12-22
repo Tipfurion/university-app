@@ -1,6 +1,10 @@
 {
     "builds": [
         {
+            "src": "server/**/*.ts",
+            "use": "@now/node"
+        },
+        {
             "src": "nuxt.config.js",
             "use": "@nuxtjs/vercel-builder"
         }
