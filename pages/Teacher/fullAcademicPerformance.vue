@@ -1,38 +1,23 @@
 <template>
     <div>
+        <h2>Успеваемость</h2>
         <el-row>
-            <el-table :data="formattedReportData" style="width: 1050px">
-                <el-table-column v-for="field in fields" :prop="field.value" :label="field.name" :key="field.value">
-                </el-table-column>
-
-                <el-table-column label="Действия">
-                    <template slot-scope="scope">
-                        <div class="action-buttons">
-                            <el-button size="mini" class="action-button" @click="handleEdit(scope.row)"
-                                >Редактировать</el-button
-                            >
-                            <el-button size="mini" class="action-button" type="danger" @click="deleteItem(scope.row.id)"
-                                >Удалить</el-button
-                            >
-                        </div>
-                    </template>
-                </el-table-column>
-            </el-table>
+            <div v-for="(item, i) in Object.values(splittedBySemesterReportData)" :key="i">
+                <h3>{{ item[0].semester }} семестр</h3>
+                <el-table :data="item" style="width: 1050px">
+                    <el-table-column v-for="field in fields" :prop="field.value" :label="field.name" :key="field.value">
+                    </el-table-column>
+                </el-table>
+            </div>
         </el-row>
     </div>
 </template>
 
 <script lang="ts">
+import _ from 'lodash'
 import Vue from 'vue'
-import {
-    createAcademicPerformance,
-    deleteAcademicPerformance,
-    getAcademicPerformances,
-    updateAcademicPerformance,
-} from '../../api/academicPerformance'
-import { getFormOfControls } from '../../api/formOfControls'
-import { getGroups } from '../../api/groups'
-import { getStudents } from '../../api/students'
+
+import { getFullAcademicPerformance } from '../../api/report'
 
 export default Vue.extend({
     data: () => ({
@@ -54,22 +39,29 @@ export default Vue.extend({
                 name: 'Дата сдачи',
                 value: 'formatted_complete_date',
             },
+            {
+                name: 'Преподователь',
+                value: 'teacher',
+            },
         ],
         formdata: {} as any,
         reportData: [] as any[],
     }),
     computed: {
-        formattedReportData(): any[] {
-            return this.academicPerformances.map((el) =>
-                Object.assign({}, el, {
-                    formatted_complete_date: el.complete_date
-                        ? new Date(el.complete_date).toLocaleString().substr(0, 10)
-                        : '',
-                    formOfControl: this.getFormOfControlName(
-                        this.formOfControls.find((el2) => el2.id == el.form_of_control_id)
-                    ),
-                    student: this.getStudentName(this.students.find((el2) => el2.id == el.student_id)),
-                })
+        splittedBySemesterReportData(): any {
+            return _.groupBy(
+                this.reportData.map((el) =>
+                    Object.assign({}, el, {
+                        formatted_complete_date: el.complete_date
+                            ? new Date(el.complete_date).toLocaleString().substr(0, 10)
+                            : '',
+                        formOfControl: `${el.subject} ${el.control_form} ${
+                            el.exam_date ? new Date(el.exam_date).toLocaleString().substr(0, 10) : ''
+                        }`,
+                        teacher: `${el.teacher} Кафедра ${el.teacher_department.toLowerCase()}`,
+                    })
+                ),
+                'semester'
             )
         },
     },

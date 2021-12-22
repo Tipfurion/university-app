@@ -52,15 +52,15 @@ export default {
                 return [
                     {
                         title: 'Успеваемость',
-                        path: '/about',
+                        path: '/teacher/fullAcademicPerformance',
                     },
                     {
                         title: 'Задолженности',
-                        path: '/about',
+                        path: '/teacher/arrears',
                     },
                     {
-                        title: 'Задолженности 2',
-                        path: '/about',
+                        title: 'Задол. бол. полугода',
+                        path: '/teacher/arrearsBiggerThanHalfYear',
                     },
                 ]
             }

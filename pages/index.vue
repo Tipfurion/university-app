@@ -22,7 +22,7 @@ export default Vue.extend({
         if (this.$auth.user!.type === 'admin') {
             this.$router.push('/admin/curriculum')
         } else if (this.$auth.user!.type === 'teacher') {
-            this.$router.push('/teacher')
+            this.$router.push('/teacher/fullAcademicPerformance')
         }
     },
 })

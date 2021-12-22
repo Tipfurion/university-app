@@ -17,7 +17,7 @@
                 <b>Преподаватель</b>
             </div>
             <div>
-                <span>admin_login</span>
+                <span>teacher1_login</span>
             </div>
             <div>
                 <span>qwerty123</span>

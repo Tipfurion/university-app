@@ -10,7 +10,23 @@
                 ><el-option v-for="item in students" :key="item.id" :label="getStudentName(item)" :value="item.id">
                 </el-option
             ></el-select>
-            <el-input placeholder="Оценка" v-model="formdata.mark" class="form-input"></el-input>
+            <el-select placeholder="Оценка" v-model="formdata.mark" class="form-input" style="width: 100%"
+                ><el-option
+                    v-for="item in [
+                        'Отлично',
+                        'Хорошо',
+                        'Удовлетворительно',
+                        'Зачтено',
+                        'Не зачтено',
+                        'Неудовлетворительно',
+                        'Неявка',
+                    ]"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                >
+                </el-option
+            ></el-select>
             <el-select
                 placeholder="Форма контроля"
                 filterable=""

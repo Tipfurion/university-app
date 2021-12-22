@@ -6,7 +6,7 @@
                 <i class="el-icon-user user-icon" width="24px"></i>
             </button>
 
-            <el-button type="primary" @click="logout">logout</el-button>
+            <el-button type="primary" @click="logout">Выход</el-button>
         </div>
     </header>
 </template>
